@@ -11,6 +11,16 @@ This is a **demo app** — build at proof-of-concept level. Favor the simplest t
 When working on TanStack AI code, read and follow:
 node_modules/@tanstack/ai/skills/ai-core/SKILL.md
 
+## Architecture
+
+Voice-driven bookshop. The shopper talks; an AI concierge filters/navigates via tools and speaks back.
+
+- **Voice**: OpenAI Realtime (`gpt-realtime`, voice-to-voice over WebRTC) — STT + reasoning + TTS. OpenRouter has no realtime adapter and is unused; do not route the conversation through it.
+- **Server**: `src/routes/api/realtime-token/+server.ts` mints ephemeral tokens with `realtimeToken` + `openaiRealtimeToken`. `OPENAI_API_KEY` is server-only, read via `$app/env/private` (declared in `src/env.ts`; `$env/*` is deprecated in this Kit).
+- **Client**: `src/lib/ai/realtime.svelte.ts` wraps `RealtimeClient` (from `@tanstack/ai-client`) in a rune — there is no Svelte realtime hook.
+- **Tools**: `src/lib/ai/tools.ts` — isomorphic, zod-typed, client-side; they mutate the filter store. Prompt in `src/lib/ai/instructions.ts`.
+- **State**: `src/lib/stores/shop.svelte.ts` (rune store, `$derived` results). Catalog in `src/lib/data/books.ts` (single source of truth).
+
 ## Git
 
 Use conventional commit messages like 'feat:', 'fix:', 'chore:', ...

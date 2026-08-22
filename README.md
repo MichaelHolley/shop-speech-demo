@@ -1,42 +1,43 @@
-# sv
+# Bookshop — Voice Concierge
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+A SvelteKit bookshop you browse by talking to it. A realtime voice assistant
+navigates the storefront on your behalf: applying genre/price/search filters,
+sorting, and opening book details — and talks back.
 
-## Creating a project
+Built with [TanStack AI](https://tanstack.com/ai) + **OpenAI Realtime**
+(`gpt-realtime`, voice-to-voice over WebRTC). Filtering runs client-side through
+isomorphic tools the model calls.
 
-If you're seeing this, you've probably already done this step. Congrats!
+## Setup
 
-```sh
-# create a new project
-npx sv create my-app
-```
-
-To recreate this project with the same configuration:
-
-```sh
-# recreate this project
-pnpm dlx sv@0.16.3 create --template minimal --types ts --add prettier eslint tailwindcss="plugins:none" sveltekit-adapter="adapter:auto" mcp="ide:claude-code+setup:remote" experimental="versions:kit+features:async,remoteFunctions,explicitEnvironmentVariables,handleRenderingErrors" --install pnpm vibe-svelte
-```
-
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+Set your OpenAI key (used server-side to mint short-lived session tokens; it
+never reaches the browser):
 
 ```sh
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
+cp .env.example .env
+# edit .env → OPENAI_API_KEY=sk-...
 ```
 
-## Building
-
-To create a production version of your app:
+## Develop
 
 ```sh
-npm run build
+pnpm install
+pnpm run dev
 ```
 
-You can preview the production build with `npm run preview`.
+Open the app, click **Talk to concierge**, allow the microphone, and say
+something like *"show me fantasy books under 15 dollars"* or *"tell me about Dune"*.
 
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+## Validate
+
+```sh
+pnpm run check
+```
+
+## Build
+
+```sh
+pnpm run build && pnpm run preview
+```
+
+> Deploying requires an [adapter](https://svelte.dev/docs/kit/adapters) for your target.

@@ -23,6 +23,15 @@ importers:
       '@tailwindcss/vite':
         specifier: ^4.3.3
         version: 4.3.3(vite@8.2.1(@types/node@24.13.3)(jiti@2.7.0))
+      '@tanstack/ai':
+        specifier: ^0.45.1
+        version: 0.45.1(zod@4.4.3)
+      '@tanstack/ai-openrouter':
+        specifier: ^0.17.1
+        version: 0.17.1(@tanstack/ai@0.45.1(zod@4.4.3))
+      '@tanstack/ai-svelte':
+        specifier: ^0.16.3
+        version: 0.16.3(@tanstack/ai@0.45.1(zod@4.4.3))(svelte@5.56.9(@typescript-eslint/types@8.67.0))(zod@4.4.3)
       '@types/node':
         specifier: ^24
         version: 24.13.3
@@ -67,6 +76,14 @@ importers:
         version: 8.2.1(@types/node@24.13.3)(jiti@2.7.0)
 
 packages:
+
+  '@ag-ui/core@0.1.1-canary.beta.0':
+    resolution: {integrity: sha512-zcP3RH5p3HJTZ0kyQxNOL1blnVFTDpaShitR7UMS/thwFdl48V6CAG+WQBcYEu/dfa8mKonRez88N0Ok+nEI+w==}
+    peerDependencies:
+      zod: ^3.25.18 || ^4.0.0
+    peerDependenciesMeta:
+      zod:
+        optional: true
 
   '@eslint-community/eslint-utils@4.10.1':
     resolution: {integrity: sha512-cuadcxVFE8sDK6iWJbs8Sn0av2Nrh2QSGQhVlBW9AaAHqHwjWsZHT8LJ4hFGPh7ASBV2deFdM7H/DPjulmh8rg==}
@@ -142,6 +159,9 @@ packages:
 
   '@jridgewell/trace-mapping@0.3.31':
     resolution: {integrity: sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw==}
+
+  '@openrouter/sdk@0.13.20':
+    resolution: {integrity: sha512-fx4o19FHgadEldfrSOgSbXAi32hCE3O708q1nxcoxYrW6fP6/WggX3o5PmnlnObzmxrqLMkZpqg188K+Twguhg==}
 
   '@oxc-project/types@0.143.0':
     resolution: {integrity: sha512-u6JZdLBTLotrNC9Vd6vPssINdzcCzleKAH6EJKImQb7GtYvX5keN2dxkoK44stCc4tffE6QQRtZTXVSzsLUlWA==}
@@ -375,6 +395,40 @@ packages:
     resolution: {integrity: sha512-yYU8cogLeSh/ms2jh8Fj7jaba/EWa7Ja6GoUqYZaraEuCI5YS6ms6ObZgjjedm+jm6XZjdNRWBpPP6Z86oOxcw==}
     peerDependencies:
       vite: ^5.2.0 || ^6 || ^7 || ^8
+
+  '@tanstack/ai-client@0.23.3':
+    resolution: {integrity: sha512-be/Jd9YOGlvoJzZP6dfgVcm7lnUhShDCMJertZdg0/cT5IAaOYoSWgvTptckVpIeXbk/B9x0GLVC8JJ9qCfyFw==}
+
+  '@tanstack/ai-event-client@0.8.0':
+    resolution: {integrity: sha512-UzhGQERwGU0yymziuGiHXNnKRZeR2JaGoPXeNzKuHwQtUmvMu1H8g0C9wpkpksj+pmTQPhdEBUOMlU6NhLDVpA==}
+
+  '@tanstack/ai-openrouter@0.17.1':
+    resolution: {integrity: sha512-qfTucCI8PBViNw9eGZZ2/NvnNeYxqS1lrJSYru/ZlGKTWix32Xfg11CdAS/FWTJPM0xqcCytz7i+Sh1Ath5MNA==}
+    peerDependencies:
+      '@tanstack/ai': ^0.45.0
+
+  '@tanstack/ai-svelte@0.16.3':
+    resolution: {integrity: sha512-ibIBTXCtHKbsJ7BEuhoLO44Ht+39g1bhAfsX/i9A+p520bnDH6uJMMfkG2JHWZYIVzq/EIJDYOZWQP6rO/mzrw==}
+    peerDependencies:
+      '@tanstack/ai': ^0.45.0
+      svelte: ^5.0.0
+
+  '@tanstack/ai-utils@0.4.0':
+    resolution: {integrity: sha512-xqvAgPJkIuGk1m+jZKyb7vBTQIaBmUD9EVzlPkDWWMp80n69uwL0TnBZCVk+OwL9goTQiFy648dnBfLsiJgl6A==}
+
+  '@tanstack/ai@0.45.1':
+    resolution: {integrity: sha512-mrqSBKX7loqm/+DUkqtHkCfr/yTCdWtmAdUd/yw2VtSNb9O61hJwB7ymGj2TU10darGLolqBxi/jGvZK9dK0hw==}
+    engines: {node: '>=18'}
+    peerDependencies:
+      '@opentelemetry/api': '>=1.9.0'
+    peerDependenciesMeta:
+      '@opentelemetry/api':
+        optional: true
+
+  '@tanstack/devtools-event-client@0.4.4':
+    resolution: {integrity: sha512-6T5Yop/793YI+H+5J8Hsyj4kCih9sl4t3ElLgKioW5hk3ocn+ZdSJ94tT7vL7uabxSugWYBZlOTMPzEw2puvQw==}
+    engines: {node: '>=18'}
+    hasBin: true
 
   '@types/esrecurse@4.3.1':
     resolution: {integrity: sha512-xJBAbDifo5hpffDBuHl0Y8ywswbiAp/Wi7Y/GtAgSlZyIABppyurxVueOPE8LUQOxdlgi6Zqce7uoEpqNTeiUw==}
@@ -918,6 +972,9 @@ packages:
     resolution: {integrity: sha512-LaNjtRWUBY++zB5nE/NwcaoMylSPk+S+ZHNB1TzdbMJMny6dynpAGt7X/tl/QYq3TIeE6nxHppbo2LGymrG5Pw==}
     engines: {node: '>=10'}
 
+  partial-json@0.1.7:
+    resolution: {integrity: sha512-Njv/59hHaokb/hRUjce3Hdv12wd60MtM9Z5Olmn+nehe0QDAsRtRbJPvJ0Z91TusF0SuZRIvnM+S4l6EIP8leA==}
+
   path-exists@4.0.0:
     resolution: {integrity: sha512-ak9Qy5Q7jYb2Wwcey5Fpvg2KoAc/ZIhLSLOSBmRmygPsGwkVVt0fZa0qrtMz+m6tJTAHfZQ8FnmB4MG4LWy7/w==}
     engines: {node: '>=8'}
@@ -1212,7 +1269,14 @@ packages:
   zimmerframe@1.1.4:
     resolution: {integrity: sha512-B58NGBEoc8Y9MWWCQGl/gq9xBCe4IiKM0a2x7GZdQKOW5Exr8S1W24J6OgM1njK8xCRGvAJIL/MxXHf6SkmQKQ==}
 
+  zod@4.4.3:
+    resolution: {integrity: sha512-ytENFjIJFl2UwYglde2jchW2Hwm4GJFLDiSXWdTrJQBIN9Fcyp7n4DhxJEiWNAJMV1/BqWfW/kkg71UDcHJyTQ==}
+
 snapshots:
+
+  '@ag-ui/core@0.1.1-canary.beta.0(zod@4.4.3)':
+    optionalDependencies:
+      zod: 4.4.3
 
   '@eslint-community/eslint-utils@4.10.1(eslint@10.8.1(jiti@2.7.0))':
     dependencies:
@@ -1282,6 +1346,10 @@ snapshots:
     dependencies:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.5
+
+  '@openrouter/sdk@0.13.20':
+    dependencies:
+      zod: 4.4.3
 
   '@oxc-project/types@0.143.0': {}
 
@@ -1437,6 +1505,48 @@ snapshots:
       '@tailwindcss/oxide': 4.3.3
       tailwindcss: 4.3.3
       vite: 8.2.1(@types/node@24.13.3)(jiti@2.7.0)
+
+  '@tanstack/ai-client@0.23.3(zod@4.4.3)':
+    dependencies:
+      '@tanstack/ai': 0.45.1(zod@4.4.3)
+      '@tanstack/ai-event-client': 0.8.0
+      '@tanstack/ai-utils': 0.4.0
+    transitivePeerDependencies:
+      - '@opentelemetry/api'
+      - zod
+
+  '@tanstack/ai-event-client@0.8.0':
+    dependencies:
+      '@tanstack/devtools-event-client': 0.4.4
+
+  '@tanstack/ai-openrouter@0.17.1(@tanstack/ai@0.45.1(zod@4.4.3))':
+    dependencies:
+      '@openrouter/sdk': 0.13.20
+      '@tanstack/ai': 0.45.1(zod@4.4.3)
+      '@tanstack/ai-utils': 0.4.0
+
+  '@tanstack/ai-svelte@0.16.3(@tanstack/ai@0.45.1(zod@4.4.3))(svelte@5.56.9(@typescript-eslint/types@8.67.0))(zod@4.4.3)':
+    dependencies:
+      '@tanstack/ai': 0.45.1(zod@4.4.3)
+      '@tanstack/ai-client': 0.23.3(zod@4.4.3)
+      svelte: 5.56.9(@typescript-eslint/types@8.67.0)
+    transitivePeerDependencies:
+      - '@opentelemetry/api'
+      - zod
+
+  '@tanstack/ai-utils@0.4.0': {}
+
+  '@tanstack/ai@0.45.1(zod@4.4.3)':
+    dependencies:
+      '@ag-ui/core': 0.1.1-canary.beta.0(zod@4.4.3)
+      '@standard-schema/spec': 1.1.0
+      '@tanstack/ai-event-client': 0.8.0
+      '@tanstack/ai-utils': 0.4.0
+      partial-json: 0.1.7
+    transitivePeerDependencies:
+      - zod
+
+  '@tanstack/devtools-event-client@0.4.4': {}
 
   '@types/esrecurse@4.3.1': {}
 
@@ -1931,6 +2041,8 @@ snapshots:
     dependencies:
       p-limit: 3.1.0
 
+  partial-json@0.1.7: {}
+
   path-exists@4.0.0: {}
 
   path-key@3.1.1: {}
@@ -2137,3 +2249,5 @@ snapshots:
   yocto-queue@0.1.0: {}
 
   zimmerframe@1.1.4: {}
+
+  zod@4.4.3: {}

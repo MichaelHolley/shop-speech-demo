@@ -6,6 +6,11 @@
 
 This is a **demo app** — build at proof-of-concept level. Favor the simplest thing that works and demonstrates the idea; skip production concerns like hardening, exhaustive error handling, auth, scalability, and edge-case coverage unless explicitly asked.
 
+## Tanstack AI
+
+When working on TanStack AI code, read and follow:
+node_modules/@tanstack/ai/skills/ai-core/SKILL.md
+
 ## Git
 
 Use conventional commit messages like 'feat:', 'fix:', 'chore:', ...

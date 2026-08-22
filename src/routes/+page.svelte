@@ -160,7 +160,7 @@
 	{/if}
 </main>
 
-{#if live || voice.messages.length}
+{#if voice.status !== 'idle' || voice.messages.length}
 	<aside
 		class="fixed right-4 bottom-4 z-40 flex w-80 flex-col gap-3 rounded-2xl border border-slate-200 bg-white/95 p-4 shadow-xl backdrop-blur"
 	>
@@ -252,6 +252,9 @@
 			role="dialog"
 			aria-modal="true"
 			aria-label={book.title}
+			tabindex="-1"
+			onclick={(event) => event.stopPropagation()}
+			onkeydown={(event) => event.stopPropagation()}
 		>
 			<div
 				class="flex h-44 items-center justify-center px-8 text-center text-2xl font-bold text-white"

@@ -85,7 +85,7 @@ export function createVoiceChat() {
 			pollLevels();
 		},
 		async disconnect() {
-			cancelAnimationFrame(frame);
+			if (typeof cancelAnimationFrame !== 'undefined') cancelAnimationFrame(frame);
 			inputLevel = 0;
 			await client?.disconnect();
 		},
@@ -93,7 +93,7 @@ export function createVoiceChat() {
 			client?.interrupt();
 		},
 		destroy() {
-			cancelAnimationFrame(frame);
+			if (typeof cancelAnimationFrame !== 'undefined') cancelAnimationFrame(frame);
 			client?.destroy();
 			client = null;
 		}

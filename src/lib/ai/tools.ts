@@ -2,6 +2,24 @@ import { toolDefinition } from '@tanstack/ai';
 import { z } from 'zod';
 import { shop, toSummary } from '#lib/stores/shop.svelte.js';
 
+const bookQueryInputSchema = z.object({
+	query: z.string().meta({ description: 'The book title, or author name, to look up.' })
+});
+
+const bookLookupOutputSchema = z.object({
+	found: z.boolean(),
+	book: z
+		.object({
+			id: z.string(),
+			title: z.string(),
+			author: z.string(),
+			price: z.number(),
+			categories: z.array(z.string()),
+			description: z.string()
+		})
+		.nullable()
+});
+
 const filterBooksDef = toolDefinition({
 	name: 'filter_books',
 	description:
@@ -44,22 +62,8 @@ const openBookDef = toolDefinition({
 	name: 'open_book',
 	description:
 		'Open the detail card for a single book identified by its title (preferred) or author. Use when the shopper asks about or wants to see a specific book.',
-	inputSchema: z.object({
-		query: z.string().meta({ description: 'The book title, or author name, to look up.' })
-	}),
-	outputSchema: z.object({
-		found: z.boolean(),
-		book: z
-			.object({
-				id: z.string(),
-				title: z.string(),
-				author: z.string(),
-				price: z.number(),
-				categories: z.array(z.string()),
-				description: z.string()
-			})
-			.nullable()
-	})
+	inputSchema: bookQueryInputSchema,
+	outputSchema: bookLookupOutputSchema
 });
 
 const closeBookDef = toolDefinition({
@@ -67,6 +71,14 @@ const closeBookDef = toolDefinition({
 	description: 'Dismiss the currently open book detail card.',
 	inputSchema: z.object({}),
 	outputSchema: z.object({ closed: z.boolean() })
+});
+
+const lookupBookForContentDef = toolDefinition({
+	name: 'lookup_book_for_content',
+	description:
+		"Look up a book by title (preferred) or author before answering a question about its plot, content, themes, or what it's about. The catalog only has a short blurb, not full content — you must answer content questions from your own knowledge of the book, and must say you don't know rather than guessing if you're not familiar with it.",
+	inputSchema: bookQueryInputSchema,
+	outputSchema: bookLookupOutputSchema
 });
 
 const filterBooks = filterBooksDef.client((input) => shop.applyFilters(input));
@@ -80,5 +92,9 @@ const closeBook = closeBookDef.client(() => {
 	shop.select(null);
 	return { closed: true };
 });
+const lookupBookForContent = lookupBookForContentDef.client(({ query }) => {
+	const book = shop.findBook(query);
+	return { found: book != null, book: book ? toSummary(book) : null };
+});
 
-export const voiceTools = [filterBooks, resetFilters, openBook, closeBook];
+export const voiceTools = [filterBooks, resetFilters, openBook, closeBook, lookupBookForContent];

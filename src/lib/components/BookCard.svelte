@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { Book } from '#lib/types/book.js';
-	import { priceFormatter } from '#lib/format.js';
+	import { callNumber, filingName, shelfPrice } from '#lib/format.js';
 
 	let {
 		book,
@@ -9,32 +9,55 @@
 	}: { book: Book; selected?: boolean; onselect: (id: string) => void } = $props();
 </script>
 
-<li
-	class="flex flex-col overflow-hidden rounded-xl border bg-white shadow-sm transition hover:shadow-md {selected
-		? 'border-indigo-500 ring-2 ring-indigo-200'
-		: 'border-slate-200'}"
->
+<li class="flex">
 	<button
 		type="button"
 		onclick={() => onselect(book.id)}
-		class="flex h-40 items-center justify-center px-6 text-center text-lg font-semibold text-white"
-		style="background-color: {book.coverColor}"
+		aria-pressed={selected}
+		class="group flex w-full flex-col rounded-[2px] border bg-stock text-left shadow-[0_2px_4px_rgba(32,36,31,0.28)] transition duration-200 outline-none hover:-rotate-[0.4deg] hover:shadow-[0_12px_26px_-8px_rgba(32,36,31,0.55)] focus-visible:ring-2 focus-visible:ring-accession motion-reduce:hover:rotate-0 {selected
+			? 'border-accession ring-1 ring-accession'
+			: 'border-stock-edge'}"
 	>
-		{book.title}
-	</button>
-	<div class="flex flex-1 flex-col p-5">
-		<h2 class="text-lg font-semibold text-slate-900">{book.title}</h2>
-		<p class="text-sm text-slate-500">{book.author}</p>
-		<ul class="mt-3 flex flex-wrap gap-1.5">
-			{#each book.categories as category (category)}
-				<li class="rounded-full bg-slate-100 px-2.5 py-0.5 text-xs font-medium text-slate-600">
-					{category}
-				</li>
-			{/each}
-		</ul>
-		<p class="mt-3 flex-1 text-sm text-slate-600">{book.description}</p>
-		<p class="mt-4 text-lg font-bold text-slate-900">
-			{priceFormatter.format(book.price)}
+		<div class="flex items-start justify-between px-5 pt-4">
+			<span
+				class="rounded-[1px] px-1 py-0.5 font-typed text-[11px] tracking-[0.18em] {selected
+					? 'bg-accession text-stock'
+					: 'text-accession'}"
+			>
+				{callNumber(book)}
+			</span>
+			<span
+				class="mt-0.5 h-3 w-3 rounded-full bg-stock-edge shadow-[inset_0_1px_2px_rgba(32,36,31,0.35)]"
+			></span>
+		</div>
+
+		<div class="mx-5 mt-3 border-b-[3px] border-double border-ink/30"></div>
+
+		<div class="px-5 pt-3">
+			<h2 class="font-typed text-lg leading-snug font-bold text-ink">{book.title}</h2>
+			<p class="mt-0.5 font-typed text-[13px] text-ink-soft">{filingName(book.author)}</p>
+		</div>
+
+		<div class="mx-5 mt-3 border-t border-dashed border-rule"></div>
+
+		<p class="flex-1 px-5 py-3 font-note text-[15px] leading-relaxed text-ink-soft">
+			{book.description}
 		</p>
-	</div>
+
+		<div class="mx-5 border-t border-dashed border-rule"></div>
+
+		<div class="flex items-end justify-between gap-4 px-5 py-3">
+			<ul class="flex flex-wrap gap-x-3 gap-y-1">
+				{#each book.categories as category (category)}
+					<li
+						class="flex items-center gap-1.5 font-typed text-[10px] tracking-[0.14em] text-ink-soft uppercase"
+					>
+						<span class="h-2 w-2" style="background-color: {book.coverColor}"></span>
+						{category}
+					</li>
+				{/each}
+			</ul>
+			<span class="font-typed text-sm text-ink tabular-nums">{shelfPrice(book.price)}</span>
+		</div>
+	</button>
 </li>

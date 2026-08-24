@@ -29,25 +29,27 @@
 />
 
 <main class="mx-auto max-w-6xl px-6 py-10">
-	<header class="mb-6 flex flex-wrap items-end justify-between gap-4">
+	<header
+		class="mb-1.5 flex flex-wrap items-center justify-between gap-4 rounded-[2px] bg-ink px-6 py-5"
+	>
 		<div>
-			<h1 class="text-3xl font-bold tracking-tight text-slate-900">Bookshop</h1>
-			<p class="mt-1 text-slate-600">Browse by hand — or just talk to the concierge.</p>
+			<h1 class="font-typed text-2xl font-bold tracking-[0.2em] text-stock uppercase">Bookshop</h1>
+			<p class="mt-1 font-typed text-[11px] tracking-[0.16em] text-stock/60 uppercase">
+				Card catalogue · ask at the desk
+			</p>
 		</div>
 		<button
 			onclick={toggleCall}
 			disabled={busy}
-			class="inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition disabled:opacity-60 {live
-				? 'bg-rose-600 hover:bg-rose-700'
-				: 'bg-indigo-600 hover:bg-indigo-700'}"
+			class="inline-flex items-center gap-2.5 rounded-[2px] px-4 py-2.5 font-typed text-[12px] tracking-[0.16em] uppercase transition outline-none focus-visible:ring-2 focus-visible:ring-stock disabled:opacity-50 {live
+				? 'bg-accession text-stock hover:bg-accession/85'
+				: 'bg-stock text-ink hover:bg-white'}"
 		>
-			<span class="relative flex h-2.5 w-2.5">
+			<span class="relative flex h-2 w-2">
 				{#if live}
-					<span
-						class="absolute inline-flex h-full w-full animate-ping rounded-full bg-white opacity-75"
-					></span>
+					<span class="absolute inline-flex h-full w-full animate-ping bg-stock opacity-75"></span>
 				{/if}
-				<span class="relative inline-flex h-2.5 w-2.5 rounded-full bg-white"></span>
+				<span class="relative inline-flex h-2 w-2 {live ? 'bg-stock' : 'bg-accession'}"></span>
 			</span>
 			{live ? 'End conversation' : busy ? 'Connecting…' : 'Talk to concierge'}
 		</button>
@@ -56,13 +58,19 @@
 	<ShopFilters />
 
 	{#if shop.filtered.length === 0}
-		<p class="rounded-xl border border-dashed border-slate-300 p-10 text-center text-slate-500">
-			No books match these filters. Try clearing one.
+		<p
+			class="rounded-[2px] border border-dashed border-ink/30 p-12 text-center font-typed text-[13px] tracking-[0.1em] text-ink-soft uppercase"
+		>
+			No cards in this drawer. Clear a filter to refile.
 		</p>
 	{:else}
-		<ul class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+		<ul class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
 			{#each shop.filtered as book (book.id)}
-				<BookCard {book} selected={shop.selectedId === book.id} onselect={(id) => shop.select(id)} />
+				<BookCard
+					{book}
+					selected={shop.selectedId === book.id}
+					onselect={(id) => shop.select(id)}
+				/>
 			{/each}
 		</ul>
 	{/if}

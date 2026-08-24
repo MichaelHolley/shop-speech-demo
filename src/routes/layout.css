@@ -1,1 +1,20 @@
 @import 'tailwindcss';
+
+@theme {
+	--color-desk: #c6bda6;
+	--color-stock: #e9e3d2;
+	--color-stock-edge: #dcd4be;
+	--color-ink: #20241f;
+	--color-ink-soft: #5c6157;
+	--color-rule: #93a9bd;
+	--color-accession: #a33a2c;
+
+	--font-typed: 'Courier Prime', ui-monospace, monospace;
+	--font-note: 'Source Serif 4', Georgia, serif;
+}
+
+body {
+	background-color: var(--color-desk);
+	color: var(--color-ink);
+	font-family: var(--font-note);
+}

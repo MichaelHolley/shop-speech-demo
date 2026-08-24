@@ -5,58 +5,61 @@
 	let { voice }: { voice: ReturnType<typeof createVoiceChat> } = $props();
 
 	const statusLabel: Record<string, string> = {
-		idle: 'Tap to start',
-		connecting: 'Connecting…',
+		idle: 'Desk closed',
+		connecting: 'Opening the line…',
 		connected: 'Listening',
 		reconnecting: 'Reconnecting…',
-		error: 'Connection error'
+		error: 'Line trouble'
 	};
 
 	const modeLabel: Record<string, string> = {
 		idle: 'Ready',
-		listening: 'Listening to you',
-		thinking: 'Thinking…',
-		speaking: 'Speaking'
+		listening: 'Your turn',
+		thinking: 'Checking the drawer',
+		speaking: 'Answering'
 	};
 
 	let live = $derived(voice.status === 'connected' || voice.status === 'reconnecting');
 </script>
 
 <aside
-	class="fixed right-4 bottom-4 z-40 flex w-80 flex-col gap-3 rounded-2xl border border-slate-200 bg-white/95 p-4 shadow-xl backdrop-blur"
+	class="fixed right-4 bottom-4 z-40 flex w-80 flex-col gap-3 rounded-[2px] bg-ink p-4 shadow-[0_20px_44px_-16px_rgba(32,36,31,0.75)]"
 >
-	<div class="flex items-center justify-between">
+	<div class="flex items-start justify-between gap-3">
 		<div>
-			<p class="text-sm font-semibold text-slate-900">Concierge</p>
-			<p class="text-xs text-slate-500">
-				{statusLabel[voice.status] ?? voice.status}{#if live} · {modeLabel[voice.mode] ?? voice.mode}{/if}
+			<p class="font-typed text-[11px] tracking-[0.18em] text-stock uppercase">Reference desk</p>
+			<p class="mt-0.5 font-typed text-[10px] tracking-[0.12em] text-stock/55 uppercase">
+				{statusLabel[voice.status] ?? voice.status}{#if live}
+					· {modeLabel[voice.mode] ?? voice.mode}{/if}
 			</p>
 		</div>
 		{#if live}
 			<button
 				onclick={() => voice.interrupt()}
 				disabled={voice.mode !== 'speaking'}
-				class="rounded-md border border-slate-300 px-2 py-1 text-xs font-medium text-slate-600 hover:bg-slate-100 disabled:opacity-40"
+				class="rounded-[1px] border border-stock/40 px-2 py-1 font-typed text-[10px] tracking-[0.14em] text-stock/80 uppercase transition hover:border-stock hover:text-stock disabled:opacity-30"
 			>
-				Interrupt
+				Cut in
 			</button>
 		{/if}
 	</div>
 
 	{#if live}
-		<div class="h-1.5 overflow-hidden rounded-full bg-slate-200">
+		<div class="h-1 overflow-hidden bg-stock/15">
 			<div
-				class="h-full rounded-full bg-emerald-500 transition-[width] duration-75"
+				class="h-full bg-accession transition-[width] duration-75"
 				style="width: {Math.min(100, Math.round(voice.inputLevel * 140))}%"
 			></div>
 		</div>
 	{/if}
 
 	{#if voice.error}
-		<p class="rounded-lg bg-rose-50 px-3 py-2 text-xs text-rose-700">{voice.error.message}</p>
+		<p class="rounded-[1px] bg-accession px-3 py-2 font-typed text-[11px] text-stock">
+			{voice.error.message}
+		</p>
 	{/if}
 
-	<div class="flex max-h-64 flex-col gap-2 overflow-y-auto text-sm">
+	<div class="flex max-h-64 flex-col gap-2 overflow-y-auto font-note text-[15px] leading-snug">
 		{#each voice.messages as message (message.id)}
 			{@const text = message.parts
 				.map((part: RealtimeMessagePart) =>
@@ -67,9 +70,9 @@
 			{#if text}
 				<div class={message.role === 'user' ? 'text-right' : 'text-left'}>
 					<span
-						class="inline-block rounded-2xl px-3 py-1.5 {message.role === 'user'
-							? 'bg-indigo-600 text-white'
-							: 'bg-slate-100 text-slate-800'}"
+						class="inline-block rounded-[1px] px-3 py-1.5 {message.role === 'user'
+							? 'bg-stock text-ink'
+							: 'bg-stock/10 text-stock'}"
 					>
 						{text}
 					</span>
@@ -79,19 +82,21 @@
 
 		{#if voice.pendingUser}
 			<div class="text-right">
-				<span class="inline-block rounded-2xl bg-indigo-100 px-3 py-1.5 text-indigo-700 italic">
+				<span class="inline-block rounded-[1px] bg-stock/70 px-3 py-1.5 text-ink/70 italic">
 					{voice.pendingUser}…
 				</span>
 			</div>
 		{/if}
 		{#if voice.pendingAssistant}
 			<div class="text-left">
-				<span class="inline-block rounded-2xl bg-slate-50 px-3 py-1.5 text-slate-500 italic">
+				<span class="inline-block rounded-[1px] bg-stock/5 px-3 py-1.5 text-stock/60 italic">
 					{voice.pendingAssistant}…
 				</span>
 			</div>
 		{/if}
 	</div>
 
-	<p class="text-center text-[11px] text-slate-400">Just speak — no need to press anything.</p>
+	<p class="text-center font-typed text-[9px] tracking-[0.14em] text-stock/40 uppercase">
+		Just speak — the desk is listening
+	</p>
 </aside>

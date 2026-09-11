@@ -15,7 +15,8 @@ export const POST: RequestHandler = async () => {
 
 	try {
 		const token = await realtimeToken({
-			adapter: openaiRealtimeToken({ model: 'gpt-realtime' })
+			// @ts-expect-error TanStack AI has not added this OpenAI model yet.
+			adapter: openaiRealtimeToken({ model: 'gpt-realtime-2.1-mini' })
 		});
 		return json(token);
 	} catch (err) {

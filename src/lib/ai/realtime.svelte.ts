@@ -21,6 +21,7 @@ export function createVoiceChat() {
 	let pendingUser = $state<string | null>(null);
 	let pendingAssistant = $state<string | null>(null);
 	let inputLevel = $state(0);
+	let muted = $state(false);
 
 	let client: RealtimeClient | null = null;
 	let frame = 0;
@@ -78,8 +79,12 @@ export function createVoiceChat() {
 		get inputLevel() {
 			return inputLevel;
 		},
+		get muted() {
+			return muted;
+		},
 		async connect() {
 			error = null;
+			muted = false;
 			client ??= build();
 			await client.connect();
 			pollLevels();
@@ -87,10 +92,17 @@ export function createVoiceChat() {
 		async disconnect() {
 			if (typeof cancelAnimationFrame !== 'undefined') cancelAnimationFrame(frame);
 			inputLevel = 0;
+			muted = false;
 			await client?.disconnect();
 		},
-		interrupt() {
-			client?.interrupt();
+		toggleMute() {
+			if (!client) return;
+			muted = !muted;
+			if (muted) {
+				client.stopListening();
+			} else {
+				client.startListening();
+			}
 		},
 		destroy() {
 			if (typeof cancelAnimationFrame !== 'undefined') cancelAnimationFrame(frame);

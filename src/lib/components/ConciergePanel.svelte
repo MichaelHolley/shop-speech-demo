@@ -30,16 +30,18 @@
 			<p class="font-typed text-[11px] tracking-[0.18em] text-stock uppercase">Reference desk</p>
 			<p class="mt-0.5 font-typed text-[10px] tracking-[0.12em] text-stock/55 uppercase">
 				{statusLabel[voice.status] ?? voice.status}{#if live}
-					· {modeLabel[voice.mode] ?? voice.mode}{/if}
+					· {voice.muted ? 'Mic muted' : (modeLabel[voice.mode] ?? voice.mode)}{/if}
 			</p>
 		</div>
 		{#if live}
 			<button
-				onclick={() => voice.interrupt()}
-				disabled={voice.mode !== 'speaking'}
-				class="rounded-[1px] border border-stock/40 px-2 py-1 font-typed text-[10px] tracking-[0.14em] text-stock/80 uppercase transition hover:border-stock hover:text-stock disabled:opacity-30"
+				onclick={() => voice.toggleMute()}
+				aria-pressed={voice.muted}
+				class="shrink-0 rounded-[1px] border px-2 py-1 font-typed text-[10px] tracking-[0.14em] uppercase transition {voice.muted
+					? 'border-accession bg-accession text-stock'
+					: 'border-stock/40 text-stock/80 hover:border-stock hover:text-stock'}"
 			>
-				Cut in
+				{voice.muted ? 'Unmute' : 'Mute'}
 			</button>
 		{/if}
 	</div>

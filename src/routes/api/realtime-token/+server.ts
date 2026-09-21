@@ -1,5 +1,5 @@
-import { json, error } from '@sveltejs/kit';
 import { OPENAI_API_KEY } from '$app/env/private';
+import { error } from '@sveltejs/kit';
 import { realtimeToken } from '@tanstack/ai';
 import { openaiRealtimeToken } from '@tanstack/ai-openai';
 import type { RequestHandler } from './$types';
@@ -18,7 +18,9 @@ export const POST: RequestHandler = async () => {
 			// @ts-expect-error TanStack AI has not added this OpenAI model yet.
 			adapter: openaiRealtimeToken({ model: 'gpt-realtime-2.1-mini' })
 		});
-		return json(token);
+		return new Response(JSON.stringify(token), {
+			headers: { 'Content-Type': 'application/json' }
+		});
 	} catch (err) {
 		error(502, err instanceof Error ? err.message : 'Failed to mint realtime token');
 	}

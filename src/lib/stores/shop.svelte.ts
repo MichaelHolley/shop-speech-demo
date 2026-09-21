@@ -52,6 +52,7 @@ class ShopStore {
 	maxPrice = $state<number | null>(null);
 	sort = $state<SortOrder>('relevance');
 	selectedId = $state<string | null>(null);
+	cartIds = $state<string[]>([]);
 
 	readonly filtered = $derived.by(() => {
 		const term = norm(this.search);
@@ -81,6 +82,8 @@ class ShopStore {
 	readonly selectedBook = $derived(
 		this.selectedId ? (books.find((book) => book.id === this.selectedId) ?? null) : null
 	);
+	readonly cart = $derived(books.filter((book) => this.cartIds.includes(book.id)));
+	readonly cartTotal = $derived(this.cart.reduce((total, book) => total + book.price, 0));
 
 	readonly activeFilters = $derived.by(() => {
 		const parts: string[] = [];
@@ -118,6 +121,16 @@ class ShopStore {
 
 	select(id: string | null) {
 		this.selectedId = id;
+	}
+
+	addToCart(id: string): boolean {
+		if (this.cartIds.includes(id)) return false;
+		this.cartIds.push(id);
+		return true;
+	}
+
+	removeFromCart(id: string) {
+		this.cartIds = this.cartIds.filter((entry) => entry !== id);
 	}
 
 	findBook(queryText: string): Book | null {

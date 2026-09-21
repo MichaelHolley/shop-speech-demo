@@ -2,7 +2,12 @@
 	import type { Book } from '#lib/types/book.js';
 	import { callNumber, filingName, shelfPrice } from '#lib/format.js';
 
-	let { book, onclose }: { book: Book; onclose: () => void } = $props();
+	let {
+		book,
+		onclose,
+		onadd,
+		inCart
+	}: { book: Book; onclose: () => void; onadd: () => void; inCart: boolean } = $props();
 </script>
 
 <div
@@ -58,12 +63,21 @@
 
 		<div class="flex items-center justify-between gap-4 px-7 py-5">
 			<span class="font-typed text-xl text-ink tabular-nums">{shelfPrice(book.price)}</span>
-			<button
-				onclick={onclose}
-				class="rounded-[2px] bg-ink px-4 py-2 font-typed text-[11px] tracking-[0.16em] text-stock uppercase transition outline-none hover:bg-ink/85 focus-visible:ring-2 focus-visible:ring-accession"
-			>
-				Return to drawer
-			</button>
+			<div class="flex gap-2">
+				<button
+					onclick={onclose}
+					class="rounded-[2px] border border-ink/30 px-4 py-2 font-typed text-[11px] tracking-[0.16em] text-ink uppercase transition outline-none hover:border-ink focus-visible:ring-2 focus-visible:ring-accession"
+				>
+					Return to drawer
+				</button>
+				<button
+					onclick={onadd}
+					disabled={inCart}
+					class="rounded-[2px] bg-ink px-4 py-2 font-typed text-[11px] tracking-[0.16em] text-stock uppercase transition outline-none hover:bg-ink/85 focus-visible:ring-2 focus-visible:ring-accession disabled:cursor-default disabled:opacity-50"
+				>
+					{inCart ? 'In cart' : 'Add to cart'}
+				</button>
+			</div>
 		</div>
 	</div>
 </div>
